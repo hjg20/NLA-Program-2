@@ -1,20 +1,18 @@
 import utils as u
+import numpy as np
 
 
 A = [
-    [0,0,0,0,1],
-    [0,0,0,2,0],
-    [0,0,3,0,0],
-    [0,4,0,0,0],
-    [5,0,0,0,0]
+    [2,0,0,0,0],
+    [3,2,0,0,0],
+    [4,3,2,0,0],
+    [5,4,0,2,0],
+    [6,5,4,3,2]
 ]
 
-L, U, P = u.lu(A, "complete pivoting")
+P, Q, L, U = u.lu(A, "partial pivoting")
 
-print(u.matrix_multiplication(L, U, 'LU'))
-print(u.apply_permutation_matrix(P, A))
-print(L)
-'hi'
+print('L:', np.array(L),'\n\n', 'U:', np.array(U), '\n\n', 'P_r:', np.array(P), '\n\n', 'P_c:', np.array(Q))
 
 
 

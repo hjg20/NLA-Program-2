@@ -3,60 +3,54 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-problem_sizes = [10, 25, 50]
-num_samples = 10
-results = []
+sizes = [10, 25, 50]
+iterations = 10
+total_acc = []
+total_gf = []
+total_times = []
 
 selection = input("Select factorization method: no pivoting, partial pivoting, or complete pivoting. ")
 
-for i in problem_sizes:
+for i in sizes:
     accuracies = []
-    growth_factors = []
-    execution_times = []
+    gf = []
+    times = []
 
-    for _ in range(num_samples):
+    for _ in range(iterations):
         A = u.generate_matrix(i)
         start_time = time.time()
-        L, U, P = u.lu(A, selection)
+        P, Q, L, U = u.lu(A, selection)
         end_time = time.time()
         error = u.factorization_accuracy(A, L, U, P)
         gamma = u.growth_factor(L, U, A)
 
         accuracies.append(error)
-        growth_factors.append(gamma)
-        execution_times.append(end_time - start_time)
+        gf.append(gamma)
+        times.append(end_time - start_time)
 
-    avg_accuracy = sum(accuracies) / len(accuracies)
-    avg_growth_factor = sum(growth_factors) / len(growth_factors)
-    avg_execution_time = sum(execution_times) / len(execution_times)
+    total_acc.append(sum(accuracies) / len(accuracies))
+    total_gf.append(sum(gf) / len(gf))
+    total_times.append(sum(times) / len(times))
 
-    results.append({
-        'n': i,
-        'avg_accuracy': avg_accuracy,
-        'avg_growth_factor': avg_growth_factor,
-        'avg_execution_time': avg_execution_time
-
-    })
-    print(f"n = {i} done")
 
 plt.figure(figsize=(12, 6))
 plt.subplot(1, 3, 1)
-plt.plot([r['n'] for r in results], [r['avg_accuracy'] for r in results], marker='o')
-plt.xlabel('Problem Size (n)')
-plt.ylabel('Average Factorization Accuracy')
-plt.title('Factorization Accuracy vs. Problem Size')
+plt.plot(sizes, total_acc)
+plt.xlabel('Matrix sizes')
+plt.ylabel('Accuracy')
+plt.title('Accuracy vs. Matrix sizes')
 
 plt.subplot(1, 3, 2)
-plt.plot([r['n'] for r in results], [r['avg_growth_factor'] for r in results], marker='o')
-plt.xlabel('Problem Size (n)')
-plt.ylabel('Average Growth Factor')
-plt.title('Growth Factor vs. Problem Size')
+plt.plot(sizes, total_gf)
+plt.xlabel('Matrix sizes')
+plt.ylabel('Growth Factor')
+plt.title('Growth Factor vs. Matrix sizes')
 
 plt.subplot(1, 3, 3)
-plt.plot([r['n'] for r in results], [r['avg_execution_time'] for r in results], marker='o')
-plt.xlabel('Problem Size (n)')
-plt.ylabel('Average Execution Time (s)')
-plt.title('Execution Time vs. Problem Size')
+plt.plot(sizes, total_times)
+plt.xlabel('Matrix sizes')
+plt.ylabel('Time')
+plt.title('Time vs. Matrix sizes')
 
 plt.tight_layout()
 plt.show()
