@@ -14,6 +14,7 @@ L, U, P = u.lu(A, "complete pivoting")
 print(u.matrix_multiplication(L, U, 'LU'))
 print(u.apply_permutation_matrix(P, A))
 print(L)
+'hi'
 
 
 
