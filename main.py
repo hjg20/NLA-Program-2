@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-problem_sizes = [10, 20, 30]
+problem_sizes = [10, 25, 50]
 num_samples = 10
 results = []
 

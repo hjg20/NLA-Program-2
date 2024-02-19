@@ -2,23 +2,24 @@ import numpy as np
 import random
 
 
+def is_full_rank(matrix):
+    if len(matrix) > len(matrix[0]):
+        return all(any(row) for row in zip(*matrix))
+    else:
+        return all(any(row) for row in matrix)
+
 def generate_matrix(n):
-    L = [[0.0] * n for _ in range(n)]
-    U = [[0.0] * n for _ in range(n)]
+    matrix = []
     for i in range(n):
-        for j in range(i + 1):
-            if i == j:
-                L[i][j] = 1.0
+        while True:
+            new_row = [random.randint(1, 10) for _ in range(n)]
+            matrix.append(new_row)
+            if is_full_rank(matrix):
+                break 
             else:
-                L[i][j] = random.uniform(0.1, 1.0)
-    for i in range(n):
-        for j in range(i, n):
-            if i == j:
-                U[i][j] = random.uniform(1.0, 10.0)
-            else:
-                U[i][j] = random.uniform(0.1, 1.0)
-    A = [[sum(L[i][k] * U[k][j] for k in range(n)) for j in range(n)] for i in range(n)]
-    return A
+                matrix.pop()
+
+    return matrix
 
 
 def lu(A, selection):
