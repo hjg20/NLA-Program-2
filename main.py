@@ -2,9 +2,10 @@ import utils as u
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import pandas as pd
 
-sizes = [10, 25, 50]
-iterations = 10
+sizes = [10, 25, 50, 100]
+iterations = 10                                                                                                                        
 total_acc = []
 total_gf = []
 total_times = []
@@ -26,21 +27,11 @@ for i in sizes:
     total_acc.append(sum(accuracies) / len(accuracies))
     total_gf.append(sum(gf) / len(gf))
     total_times.append(sum(times) / len(times))
-plt.figure(figsize=(12, 6))
-plt.subplot(1, 3, 1)
-plt.plot(sizes, total_acc)
-plt.xlabel('Matrix sizes')
-plt.ylabel('Accuracy')
-plt.title('Accuracy vs. Matrix sizes')
-plt.subplot(1, 3, 2)
-plt.plot(sizes, total_gf)
-plt.xlabel('Matrix sizes')
-plt.ylabel('Growth Factor')
-plt.title('Growth Factor vs. Matrix sizes')
-plt.subplot(1, 3, 3)
-plt.plot(sizes, total_times)
-plt.xlabel('Matrix sizes')
-plt.ylabel('Time')
-plt.title('Time vs. Matrix sizes')
-plt.tight_layout()
-plt.show()
+
+df = pd.DataFrame()
+df['Matrix Sizes'] = sizes
+df['Accuracies'] = total_acc
+df['Growth Factors'] = total_gf
+df['Times'] = total_times
+
+print(df)
